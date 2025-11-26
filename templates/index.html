@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %} My Simple Blog | Index Page {% endblock %}
+
+{% block body %}
+
+{% include "navigation.html"%}
+{% include "message.html" %}
+
+<!-- POSTS SECTION -->
+{% if posts.items|length > 0 %}
+<div class="w3-container">
+    <h2 class="w3-center w3-bold">Post</h2>
+    <ul class="w3-ul w3-hoverable w3-border w3-round w3-leftbar w3-rightbar w3-section"
+        style="width: 60%; margin: auto;">
+
+        {% for post in posts.items %}
+        <li class="w3-bar w3-display-container">
+            <a class="w3-bar-item w3-button w3-display-right w3-bold w3-round w3-hover-text-green"
+            href="{{ url_for('main.read_blog', bid=post.id) }}"> Read More...</a>
+            <div class="w3-bar-item">
+                <span class="w3-large w3-bold">{{ post.title }}</span><br>
+                <span>{{ post.author.fullname }}</span><br>
+                <span class="w3-small">{{ post.created_at}}</span>
+            </div>
+        </li>
+        {% endfor %}
+
+    </ul>
+</div>
+
+{% else %}
+<div class="w3-panel w3-leftbar w3-rightbar w3-sand w3-xxlarge w3-serif w3-card w3-round w3-center"
+     style="width: 60%; margin: auto;">
+    <p>⭐ No posts have been published yet!</p>
+</div>
+{% endif %}
+
+<!-- PAGINATION -->
+<div class="w3-center">
+    <div class="w3-bar">
+        {% if posts.has_prev %}
+        <a href="{{ url_for('main.index', page=posts.prev_num) }}" class="w3-button w3-round">&laquo;</a>
+        {% endif %}
+
+        {% for p in posts.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+        {% if p %}
+        {% if p == posts.page %}
+        <a href="{{ url_for('main.index', page=p) }}" class="w3-button w3-green w3-round">{{ p }}</a>
+        {% else %}
+        <a href="{{ url_for('main.index', page=p) }}" class="w3-button w3-round">{{ p }}</a>
+        {% endif %}
+        {% else %}
+        ...
+        {% endif %}
+        {% endfor %}
+
+        {% if posts.has_next %}
+        <a href="{{ url_for('main.index', page=posts.next_num) }}" class="w3-button w3-round">&raquo;</a>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

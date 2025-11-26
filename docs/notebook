@@ -1,0 +1,4 @@
+uv init
+uv add flask flask-sqlalchemy flask-login flask-wtf wtforms flask-bcrypt email-validator python-dotenv markdown ruff pytest
+uv run main.py
+uv sync

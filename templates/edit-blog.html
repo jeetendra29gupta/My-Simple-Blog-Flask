@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block title %} My Simple Blog | Edit Blog Post Page {% endblock %}
+
+{% block body %}
+
+{% include "navigation.html"%}
+{% include "message.html" %}
+
+<!-- Form SECTION -->
+<div class="w3-container">
+    <h2 class="w3-center w3-bold">Edit Blog Post</h2>
+
+    <form class="w3-section" method="POST" novalidate style="width: 60%; margin: auto;">
+        {{ form.hidden_tag() }}
+
+        <!-- Title -->
+        <div class="w3-section">
+            <div class="w3-text-blue w3-bold">{{ form.title.label }}</div>
+            {{ form.title(placeholder="Post Title", class="w3-input w3-border w3-round", type="text") }}
+            {% for error in form.title.errors %}
+            <div class="w3-text-red w3-bold">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+
+        <!-- Body -->
+        <div class="w3-section">
+            <div class="w3-text-blue w3-bold">{{ form.body.label }}</div>
+            {{ form.body(placeholder="Write your post here...", rows=8, class="w3-input w3-border w3-round") }}
+            {% for error in form.body.errors %}
+            <div class="w3-text-red w3-bold">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+
+        <!-- Status -->
+        <div class="w3-section">
+
+            <label class="w3-text-blue w3-bold" for="status">{{ form.status.label }}</label>
+            <select id="status" name="status" class="w3-select w3-border w3-round" required>
+                <option value="" selected disabled>Choose your option</option>
+                {% for value, label in form.status.choices %}
+                <option value="{{ value }}" {% if post.status== value %} selected {% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            {% for error in form.status.errors %}
+            <div class="w3-text-red w3-bold">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <!-- Submit -->
+        <div class="w3-section">
+            {{ form.submit(class="w3-button w3-green w3-margin-top w3-round w3-block", value="Update Post") }}
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
